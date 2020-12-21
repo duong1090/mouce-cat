@@ -39,7 +39,6 @@ def startScreen():
         if event.type == pygame.QUIT:
             pygame.quit()
         if event.type == pygame.MOUSEBUTTONDOWN:
-
             if checkCursor(xMode[0], yMode[0], widthMode, heightMode):
                 stateMode.state = 'one'
             if checkCursor(xMode[1], yMode[0], widthMode, heightMode):
@@ -50,7 +49,6 @@ def startScreen():
                 stateMode.state = 'four'
 
     gameScreen.fill((0, 0, 0))
-
     pygame.draw.rect(gameScreen, BROWN,
                      (xMode[0], yMode[0], widthMode, heightMode))
     pygame.draw.rect(gameScreen, YELLOW,
@@ -70,9 +68,12 @@ while True:
         startScreen()
     elif stateMode.state == 'one':
         runModeOne(gameScreen)
+    #khang
     # elif stateMode == 'two':
     #     # runModeTwo()
+    #thinh
     # elif stateMode == 'three':
     #     # runModeThree()
+    #dao
     # elif stateMode == 'four':
     #     # runModeFour()
