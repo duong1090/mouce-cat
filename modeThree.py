@@ -1,7 +1,7 @@
 import pygame, sys, random
 from pygame.locals import *
 
-WINDOWWIDTH = 400
+WINDOWWIDTH = 380
 WINDOWHEIGHT = 600
 
 pygame.init()
@@ -13,7 +13,6 @@ BGIMG = pygame.image.load('image/background.png')
 DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 
 #Constant for Mouse
-X_MARGIN = 80
 
 MOUSEWIDTH = 40
 MOUSEHEIGHT = 60
@@ -21,7 +20,7 @@ MOUSESPEED = 3
 MOUSEIMG = pygame.image.load('image/Mouse.png')
 
 #Constant for Cat
-LANEWIDTH = 60
+LANEWIDTH = 65
 
 DISTANCE = 200
 CATSPEED = 2
@@ -38,11 +37,11 @@ class Cats():
         self.ls = []
         for i in range(5):
             y = -MOUSEHEIGHT-i*self.distance
-            lane = random.randint(0, 3)
+            lane = random.randint(0, 5)
             self.ls.append([lane, y])
     def draw(self):
         for i in range(5):
-            x = int(X_MARGIN + self.ls[i][0]*LANEWIDTH + (LANEWIDTH-self.width)/2)
+            x = int(self.ls[i][0]*LANEWIDTH + (LANEWIDTH-self.width)/2)
             y = int(self.ls[i][1])
             DISPLAYSURF.blit(CATIMG, (x, y))
     def update(self):
@@ -52,7 +51,7 @@ class Cats():
         if self.ls[0][1] > WINDOWHEIGHT:
             self.ls.pop(0)
             y = self.ls[3][1] - self.distance
-            lane = random.randint(0, 3)
+            lane = random.randint(0, 5)
             self.ls.append([lane, y])
 
 
@@ -77,10 +76,10 @@ class Mouse():
         if moveDown == True:
             self.y += self.speed
         
-        if self.x < X_MARGIN:
-            self.x = X_MARGIN
-        if self.x + self.width > WINDOWWIDTH - X_MARGIN:
-            self.x = WINDOWWIDTH - X_MARGIN - self.width
+        if self.x < 0:
+            self.x = 0
+        if self.x + self.width > WINDOWWIDTH :
+            self.x = WINDOWWIDTH  - self.width
         if self.y < 0:
             self.y = 0
         if self.y + self.height > WINDOWHEIGHT :
@@ -165,7 +164,7 @@ def rectCollision(rect1, rect2):
 def isGameover(mouse, cats):
     mouseRect = [mouse.x, mouse.y, mouse.width, mouse.height]
     for i in range(5):
-        x = int(X_MARGIN + cats.ls[i][0]*LANEWIDTH + (LANEWIDTH-cats.width)/2)
+        x = int(cats.ls[i][0]*LANEWIDTH + (LANEWIDTH-cats.width)/2)
         y = int(cats.ls[i][1])
         catsRect = [x, y, cats.width, cats.height]
         if rectCollision(mouseRect, catsRect) == True:
@@ -173,7 +172,7 @@ def isGameover(mouse, cats):
     return False
 def gameOver(bg, mouse, cats, score):
     font = pygame.font.SysFont('consolas', 60)
-    headingSuface = font.render('GAMEOVER', True, (255, 255, 0))
+    headingSuface = font.render('GAMEOVER', True, (255, 0, 0))
     headingSize = headingSuface.get_size()
     font = pygame.font.SysFont('consolas', 20)
     commentSuface = font.render('Press "space" to replay', True, (255, 255, 0))
