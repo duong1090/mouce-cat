@@ -1,12 +1,15 @@
 import os
 import pygame
 from modeOne import runModeOne
+from modeThree import runModeThree
 from const import *
 
 # define screen
 pygame.init()
 gameScreen = pygame.display.set_mode((WIDTH_WIN, HEIGHT_WIN))
 pygame.display.set_caption('Cat & Mouse')
+
+
 
 # define mode
 
@@ -72,8 +75,9 @@ while True:
     # elif stateMode == 'two':
     #     # runModeTwo()
     #thinh
-    # elif stateMode == 'three':
-    #     # runModeThree()
+    elif stateMode.state == 'three':
+        pygame.display.set_mode((400, 600))
+        runModeThree()
     #dao
     # elif stateMode == 'four':
     #     # runModeFour()
