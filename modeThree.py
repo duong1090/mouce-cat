@@ -91,7 +91,7 @@ class Score():
         self.score = 0
     def draw(self):
         font = pygame.font.SysFont('consolas', 30)
-        scoreSuface = font.render('Score: '+str(int(self.score)), True, (0, 0, 0))
+        scoreSuface = font.render('Score: '+str(int(self.score)), True, (255, 255, 0))
         DISPLAYSURF.blit(scoreSuface, (10, 10))
     def update(self):
         self.score += 0.02
@@ -111,7 +111,7 @@ class Background():
         self.y += self.speed
         if self.y > self.height:
             self.y -= self.height
-            
+
 def gamePlay(bg, mouse, cats,score):
     bg.__init__()
     mouse.__init__()
@@ -173,11 +173,10 @@ def isGameover(mouse, cats):
     return False
 def gameOver(bg, mouse, cats, score):
     font = pygame.font.SysFont('consolas', 60)
-    headingSuface = font.render('GAMEOVER', True, (255, 0, 0))
+    headingSuface = font.render('GAMEOVER', True, (255, 255, 0))
     headingSize = headingSuface.get_size()
-
     font = pygame.font.SysFont('consolas', 20)
-    commentSuface = font.render('Press "space" to replay', True, (0, 0, 0))
+    commentSuface = font.render('Press "space" to replay', True, (255, 255, 0))
     commentSize = commentSuface.get_size()
     while True:
         for event in pygame.event.get():
