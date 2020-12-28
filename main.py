@@ -76,7 +76,6 @@ while True:
     #     # runModeTwo()
     #thinh
     elif stateMode.state == 'three':
-        pygame.display.set_mode((400, 600))
         runModeThree()
     #dao
     # elif stateMode == 'four':
