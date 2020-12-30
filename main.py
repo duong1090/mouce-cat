@@ -8,12 +8,6 @@ from const import *
 pygame.init()
 gameScreen = pygame.display.set_mode((WIDTH_WIN, HEIGHT_WIN))
 pygame.display.set_caption('Cat & Mouse')
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> 49bb3c830674df4ed84f266c0672fb244afd093a
 # define mode
 
 
