@@ -1,6 +1,7 @@
 import os
 import pygame
 from modeOne import runModeOne
+from modeTwo import runModeTwo
 from const import *
 
 # define screen
@@ -69,8 +70,8 @@ while True:
     elif stateMode.state == 'one':
         runModeOne(gameScreen)
     #khang
-    # elif stateMode == 'two':
-    #     # runModeTwo()
+    elif stateMode.state == 'two':
+        runModeTwo(gameScreen)
     #thinh
     # elif stateMode == 'three':
     #     # runModeThree()

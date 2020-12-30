@@ -22,3 +22,6 @@ class Animal:
     def moveTo(self, position):
         self.x = position.x
         self.y = position.y
+    def moveToXY(self, x,y):
+        self.x = x
+        self.y = y
