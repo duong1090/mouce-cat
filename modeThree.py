@@ -17,7 +17,7 @@ DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 MOUSEWIDTH = 60
 MOUSEHEIGHT = 60
 MOUSESPEED = 3
-MOUSEIMG = pygame.image.load('image/Mouse.png')
+MOUSEIMG = pygame.image.load('image/mouse_modeFour.png')
 
 #Constant for Cat
 LANEWIDTH = 60
@@ -26,7 +26,7 @@ CATHEIGHT = 60
 DISTANCE = 200
 CATSPEED = 2
 CHANGESPEED = 0.001
-CATIMG = pygame.image.load('image/cat.png')
+CATIMG = pygame.image.load('image/a.png')
 
 class Cats():
     def __init__(self):
@@ -43,7 +43,7 @@ class Cats():
            
     def draw(self):
         for i in range(5):
-            x = int(self.ls[i][0]*LANEWIDTH + LANEWIDTH)
+            x = int(self.ls[i][0]*LANEWIDTH )
             y = int(self.ls[i][1])
             DISPLAYSURF.blit(CATIMG, (x, y))
     def update(self):
@@ -159,14 +159,14 @@ def gamePlay(bg, mouse, cats,score):
         fpsClock.tick(FPS)
 #Xử lý va chạm
 def rectCollision(rect1, rect2):
-    if rect1[0] <= rect2[0]+rect2[2] -8 and rect2[0] <= rect1[0]+rect1[2] -8 and rect1[1] <= rect2[1]+rect2[3] -8 and rect2[1]  <= rect1[1]+rect1[3] -8:
+    if rect1[0] <= rect2[0]+rect2[2] -15  and rect2[0] <= rect1[0]+rect1[2] -15 and rect1[1] <= rect2[1]+rect2[3]  and rect2[1]  <= rect1[1]+rect1[3] :
         return True
     return False
     
 def isGameover(mouse, cats):
     mouseRect = [mouse.x, mouse.y, mouse.width, mouse.height]
     for i in range(5):
-        x = int(cats.ls[i][0]*LANEWIDTH + LANEWIDTH)
+        x = int(cats.ls[i][0]*LANEWIDTH )
         y = int(cats.ls[i][1])
         catsRect = [x, y, cats.width, cats.height]
         if rectCollision(mouseRect, catsRect) == True:
