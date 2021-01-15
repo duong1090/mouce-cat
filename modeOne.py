@@ -1,7 +1,7 @@
 # import
 import sys
 from object.animal import Animal
-from object.wall import Wall
+from object.wallK import WallK
 from object.hole import Hole
 import time
 import pygame
@@ -10,6 +10,8 @@ import threading
 from random import seed
 from random import choice
 from const import *
+import random
+
 
 pygame.init()
 
@@ -34,16 +36,18 @@ textFinishRect = textFinish.get_rect()
 textFinishRect.center = (WIDTH_WIN // 2, HEIGHT_WIN // 2)
 
 # declare walls
-wallOne = Wall(70, 70, 50, 250)
-wallTwo = Wall(200, 70, 50, 150)
-wallThree = Wall(288, 320, 50, 150)
-wallFour = Wall(418, 70, 50, 400)
-wallFive = Wall(547, 72, 155, 117)
-wallSix = Wall(519, 245, 57, 51)
-wallSeven = Wall(625, 320, 50, 150)
+walls = []
+wall_num = random.randrange(3, 10)
+for x in range(0, wall_num):
+    ran_x = random.randrange(100, 650)
+    ran_y = random.randrange(100, 450)
+    ran_w = random.randrange(5, 100)
+    ran_h = random.randrange(5, 100)
+    image = pygame.transform.scale(pygame.image.load(
+        'image/wall.png'), (ran_w, ran_h))
 
-walls = [wallOne, wallTwo, wallThree, wallFour, wallFive, wallSix, wallSeven]
-
+    ran_wall = WallK(ran_x, ran_y, ran_w, ran_h, image)
+    walls.append(ran_wall)
 # declare holes
 
 holeOne = Hole(20, 470, 60, 60)
@@ -56,8 +60,8 @@ holes = [holeOne, holeTwo]
 
 def draw(gameScreen):
     for wall in walls:
-        pygame.draw.rect(gameScreen, BROWN,
-                         (wall.x, wall.y, wall.width, wall.height))
+        gameScreen.blit(wall.image, pygame.Rect(
+        wall.x, wall.y, wall.width, wall.height))
 
     for hole in holes:
         pygame.draw.rect(gameScreen, BLUE,
@@ -78,7 +82,7 @@ def draw(gameScreen):
         gameScreen.blit(textFinish, textFinishRect)
 
 
-def checkWallTouching(animal):
+def checkWallKTouching(animal):
     tempAnimal = copy.copy(animal)
     tempAnimal.move()
 
@@ -188,10 +192,10 @@ def runModeOne(gameScreen):
     pygame.time.delay(1)
     event()
     if (checkFinish() == False and checkAnimalTouch(cat, mice) == False):
-        if (cat.isMoving and checkWallTouching(cat) and checkOutOfRange(cat)):
+        if (cat.isMoving and checkWallKTouching(cat) and checkOutOfRange(cat)):
             cat.move()
 
-        if (mice.isMoving and checkWallTouching(mice) and checkOutOfRange(mice)):
+        if (mice.isMoving and checkWallKTouching(mice) and checkOutOfRange(mice)):
             mice.move()
 
         checkMiceJumpHole()
