@@ -27,8 +27,11 @@ cat = Animal(X_CAT, Y_CAT, WIDTH_CAT, HEIGHT_CAT,
 mice = Animal(X_MICE, Y_MICE, WIDTH_MICE,
               HEIGHT_MICE, SPEED_MICE, imgMice, False, 'RIGHT')
 
+counter = 60000
+
+
 font = pygame.font.Font('freesansbold.ttf', 32)
-textGameOver = font.render('Game Over', True, WHITE)
+textGameOver = font.render('Cat Win', True, WHITE)
 textRect = textGameOver.get_rect()
 textRect.center = (WIDTH_WIN // 2, HEIGHT_WIN // 2)
 textFinish = font.render('Mice Win', True, WHITE)
@@ -49,9 +52,10 @@ for x in range(0, wall_num):
     ran_wall = WallK(ran_x, ran_y, ran_w, ran_h, image)
     walls.append(ran_wall)
 # declare holes
-
-holeOne = Hole(20, 470, 60, 60)
-holeTwo = Hole(770, 20, 60, 60)
+imageHole = pygame.transform.scale(
+    pygame.image.load('image/hole.png'), (60, 60))
+holeOne = Hole(20, 470, 60, 60, imageHole)
+holeTwo = Hole(770, 20, 60, 60, imageHole)
 holes = [holeOne, holeTwo]
 
 
@@ -59,21 +63,22 @@ holes = [holeOne, holeTwo]
 
 
 def draw(gameScreen):
+    global counter
     for wall in walls:
         gameScreen.blit(wall.image, pygame.Rect(
-        wall.x, wall.y, wall.width, wall.height))
+            wall.x, wall.y, wall.width, wall.height))
 
     for hole in holes:
-        pygame.draw.rect(gameScreen, BLUE,
-                         (hole.x, hole.y, hole.width, hole.height))
-
-    pygame.draw.rect(gameScreen, YELLOW, (X_FINISH,
-                                          Y_FINISH, WIDTH_FINISH, HEIGHT_FINISH))
+        gameScreen.blit(hole.image,
+                        pygame.Rect(hole.x, hole.y, hole.width, hole.height))
 
     gameScreen.blit(cat.image, pygame.Rect(
         cat.x, cat.y, cat.width, cat.height))
     gameScreen.blit(mice.image, pygame.Rect(
         mice.x, mice.y, mice.width, mice.height))
+
+    textCounter = font.render(str(counter // 1000), True, WHITE)
+    gameScreen.blit(textCounter, pygame.Rect(0, 0, 50, 50))
 
     if (checkAnimalTouch(cat, mice)):
         gameScreen.blit(textGameOver, textRect)
@@ -124,23 +129,30 @@ def checkMiceJumpHole():
                 mice.moveTo(holes[1])
             elif (index == 1):
                 mice.moveTo(holes[0])
+        if (holes[index].checkIn(cat)):
+            if (index == 0):
+                cat.moveTo(holes[1])
+            elif (index == 1):
+                cat.moveTo(holes[0])
         index += 1
 
 
 def checkFinish():
-    checkTop = (mice.y + mice.height) > Y_FINISH
-    checkLeft = (mice.x + mice.width) > X_FINISH
-    if (checkTop and checkLeft):
+    global counter
+    if (counter <= 0):
         return True
+    else:
+        counter -= 1
     return False
 
 
 def reset():
+    global counter
     cat.x = X_CAT
     cat.y = Y_CAT
     mice.x = X_MICE
     mice.y = Y_MICE
-
+    counter = 60000
 
 def event():
     for event in pygame.event.get():
@@ -182,15 +194,21 @@ def event():
             elif event.key == pygame.K_SPACE:
                 reset()
 
+            elif event.key == pygame.K_ESCAPE:
+                reset()
+                return True
+
         elif event.type == pygame.KEYUP:
             cat.isMoving = False
             mice.isMoving = False
+
+    return False
 
 
 # run mode
 def runModeOne(gameScreen):
     pygame.time.delay(1)
-    event()
+    backToMenu = event()
     if (checkFinish() == False and checkAnimalTouch(cat, mice) == False):
         if (cat.isMoving and checkWallKTouching(cat) and checkOutOfRange(cat)):
             cat.move()
@@ -202,3 +220,5 @@ def runModeOne(gameScreen):
     gameScreen.fill((0, 0, 0))
     draw(gameScreen)
     pygame.display.flip()
+
+    return backToMenu

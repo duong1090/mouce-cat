@@ -273,15 +273,20 @@ def event():
             elif event.key == pygame.K_SPACE:
                 reset()
 
+            elif event.key == pygame.K_ESCAPE:
+                reset()
+                return True
+
         elif event.type == pygame.KEYUP:
             cat.isMoving = False
             mice.isMoving = False
+    return False
 
 
 # run mode
 def runModeTwo(gameScreen):
     pygame.time.delay(1)
-    event()
+    backToMenu = event()
     for x in range(80000):
         x = x+1-1
     if (checkAnimalTouch(cat, mice) == False and checkPhotmatTouch(mice, phomat1) == False and checkPhotmatTouch(mice, phomat2) == False):
@@ -293,3 +298,5 @@ def runModeTwo(gameScreen):
     gameScreen.fill((0, 0, 0))
     draw(gameScreen)
     pygame.display.flip()
+
+    return backToMenu

@@ -1,9 +1,10 @@
 class Hole:
-    def __init__(self, x, y, width, height):
+    def __init__(self, x, y, width, height, image):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
+        self.image = image
 
     def checkIn(self, obj):
         checkLeft = obj.x > self.x
