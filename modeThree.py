@@ -130,10 +130,10 @@ def gameStart(bg):
                 sys.exit()
             if event.type == pygame.KEYUP:
                 if event.key == K_SPACE:
-                    return
-            if event.type == pygame.KEYUP:
-                if event.key == ESC:
-                    stateMode.state == 'intro'
+                    return False
+                elif event.key == pygame.K_ESCAPE:
+                    return True
+            
         bg.draw()
         DISPLAYSURF.blit(headingSuface, (int((WINDOWWIDTH - headingSize[0])/2), 100))
         DISPLAYSURF.blit(commentSuface, (int((WINDOWWIDTH - commentSize[0])/2), 400))
@@ -172,8 +172,10 @@ def gamePlay(bg, mouse, cats,score):
                     moveUp = False
                 if event.key == K_DOWN:
                     moveDown = False
+                elif event.key == pygame.K_ESCAPE:
+                    return True
         if isGameover(mouse, cats):
-            return
+            return False
         bg.draw()
         bg.update()
         mouse.draw()
@@ -213,7 +215,10 @@ def gameOver(bg, mouse, cats, score):
                 sys.exit()
             if event.type == pygame.KEYUP:
                 if event.key == K_SPACE:
-                    return
+                    return False
+                if event.key == pygame.K_ESCAPE:
+                    return True
+            
         bg.draw()
         mouse.draw()
         cats.draw()
@@ -224,12 +229,25 @@ def gameOver(bg, mouse, cats, score):
         fpsClock.tick(FPS)
 
 def runModeThree():
+    isBack=False
     pygame.display.set_mode((480, 600))
     bg = Background()
-    gameStart(bg)
+    isBackGameStart = gameStart(bg)
     mouse = Mouse()
     cats = Cats()
     score = Score()
-    while True:
-        gamePlay(bg, mouse,cats,score)
-        gameOver(bg,mouse,cats,score)
+    if(isBackGameStart==False):
+        while True:
+            isBackGamePlay = gamePlay(bg, mouse,cats,score)  
+            if(isBackGamePlay==False):
+                isBackGameOver = gameOver(bg,mouse,cats,score)
+                if(isBackGameOver==True):
+                    pygame.display.set_mode((850, 550))
+                    return isBackGameOver
+            else:
+                pygame.display.set_mode((850, 550))
+                return isBackGamePlay
+    else:
+        pygame.display.set_mode((850, 550))
+        return isBackGameStart
+

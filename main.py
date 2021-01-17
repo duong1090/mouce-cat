@@ -80,14 +80,10 @@ while True:
         isBack = runModeTwo(gameScreen)
     # thinh
     elif stateMode.state == 'three':
-<<<<<<< HEAD
-        runModeThree()
+        isBack = runModeThree()
+        
                
     #dao
-=======
-        isBack = runModeThree()
-    # dao
->>>>>>> ac67b278dfc3a173c833ce4378a564e8648e1102
     elif stateMode.state == 'four':
         isBack = runModeFour()
 
