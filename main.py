@@ -17,6 +17,10 @@ class Mode:
     def __init__(self):
         self.state = 'intro'
 
+    def setMode(self, mode):
+        self.state = mode
+
+
 stateMode = Mode()
 # function
 
@@ -65,17 +69,27 @@ def startScreen():
 
 # main loop
 while True:
+    isBack = False
+
     if stateMode.state == 'intro':
         startScreen()
     elif stateMode.state == 'one':
-        runModeOne(gameScreen)
-    #khang
+        isBack = runModeOne(gameScreen)
+    # khang
     elif stateMode.state == 'two':
-        runModeTwo(gameScreen)
-    #thinh
+        isBack = runModeTwo(gameScreen)
+    # thinh
     elif stateMode.state == 'three':
+<<<<<<< HEAD
         runModeThree()
                
     #dao
+=======
+        isBack = runModeThree()
+    # dao
+>>>>>>> ac67b278dfc3a173c833ce4378a564e8648e1102
     elif stateMode.state == 'four':
-        runModeFour()
+        isBack = runModeFour()
+
+    if isBack == True:
+        stateMode.setMode('intro')
