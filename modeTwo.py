@@ -47,10 +47,11 @@ imgLightBot = pygame.transform.scale(pygame.image.load(
     'image/light_bot.png'), (HOLD_BOT_WIDTH+60, HOLD_BOT_HEIGHT + 40))
 
 
-cat = Animal(X_CAT, Y_CAT, WIDTH_CAT*2, HEIGHT_CAT,
+cat = Animal(X_CAT_M2, Y_CAT_M2, WIDTH_CAT*2, HEIGHT_CAT,
              SPEED_CAT, imgCatR, False, 'RIGHT')
 mice = Animal(X_MICE, Y_MICE, WIDTH_MICE,
               HEIGHT_MICE, SPEED_MICE, imgMiceR, False, 'RIGHT')
+walls = []
 
 font = pygame.font.Font('freesansbold.ttf', 32)
 textGameOver = font.render('Tom win!', True, WHITE)
@@ -61,19 +62,10 @@ textFinishRect = textFinish.get_rect()
 textFinishRect.center = (WIDTH_WIN // 2, HEIGHT_WIN // 2)
 
 
-# declare walls
-walls = []
-wall_num = random.randrange(3, 10)
-for x in range(0, wall_num):
-    ran_x = random.randrange(100, 650)
-    ran_y = random.randrange(100, 450)
-    ran_w = random.randrange(5, 100)
-    ran_h = random.randrange(5, 100)
-    image = pygame.transform.scale(pygame.image.load(
-        'image/wall.png'), (ran_w, ran_h))
+# declare walls and phomat
+phomat1 = Phomat(200, 100, WIDTH_MICE, HEIGHT_MICE, imgPhomat)
+phomat2 = Phomat(600, 400, WIDTH_MICE, HEIGHT_MICE, imgPhomat)
 
-    ran_wall = WallK(ran_x, ran_y, ran_w, ran_h, image)
-    walls.append(ran_wall)
 
 # declare holes
 
@@ -83,9 +75,6 @@ lightTop = Light(680, 40, HOLD_TOP_WIDTH, HOLD_TOP_HEIGHT, imgLightTop)
 
 holeTop = HoleK(720, 0, HOLD_TOP_WIDTH, HOLD_TOP_HEIGHT, imgHoldTop)
 holeBot = HoleK(50, 540, HOLD_BOT_WIDTH, HOLD_BOT_HEIGHT, imgHoldBot)
-
-phomat1 = Phomat(200, 100, WIDTH_MICE, HEIGHT_MICE, imgPhomat)
-phomat2 = Phomat(600, 400, WIDTH_MICE, HEIGHT_MICE, imgPhomat)
 
 holes = [holeBot, holeTop]
 lights = [lightBot, lightTop]
@@ -111,7 +100,7 @@ def draw(gameScreen):
     ran_num = random.randrange(1, 100)
 
     for phomat in phomats:
-        if (ran_num % 30 == 0):
+        if (ran_num % 50 == 0):
             pygame.draw.rect(gameScreen, BLACK,
                              (phomat.x, phomat.y, phomat.width, phomat.height))
         else:
@@ -127,7 +116,7 @@ def draw(gameScreen):
     elif (mice.direction == 'LEFT'):
         mice.image = imgMiceL
 
-    if (ran_num % 2 == 0):
+    if (ran_num % 3 == 0):
         if (cat.image == imgCatR):
             cat.image = imgCatR2
         if (cat.image == imgCatL):
@@ -228,10 +217,25 @@ def checkMiceJumpHole():
 
 
 def reset():
-    cat.x = X_CAT
-    cat.y = Y_CAT
+    cat.x = X_CAT_M2
+    cat.y = Y_CAT_M2
     mice.x = X_MICE
     mice.y = Y_MICE
+    cat.direction = 'LEFT'
+    # walls =[]
+    for x in range(0, len(walls)-1):
+        del walls[0]
+    wall_num = random.randrange(1, 10)
+    for x in range(0, wall_num):
+        ran_x = random.randrange(0, 700)
+        ran_y = random.randrange(0, 700)
+        ran_w = random.randrange(1, 200)
+        ran_h = random.randrange(1, 300)
+        image = pygame.transform.scale(pygame.image.load(
+            'image/wall.png'), (ran_w, ran_h))
+        ran_wall = WallK(ran_x, ran_y, ran_w, ran_h, image)
+        if (not ran_wall.checkTouching(cat) and not ran_wall.checkTouching(phomat1) and not ran_wall.checkTouching(mice) and not ran_wall.checkTouching(phomat2)):
+            walls.append(ran_wall)
 
 def event():
     for event in pygame.event.get():
