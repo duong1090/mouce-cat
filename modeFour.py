@@ -19,6 +19,7 @@ def runModeFour():
     cats = [[640, 100]]
     healthvalue = 194
     pygame.mixer.init()
+    counter = 900
 
     # Load image
     mouse = pygame.image.load("image/mouse_modeFour.png")
@@ -35,6 +36,8 @@ def runModeFour():
     running = 1
     exitcode = 0
     while running:
+        counter -= 0.2
+
         cattimer -= 1
         # Clear the screen before drawing it again
         screen.fill(0)
@@ -102,8 +105,8 @@ def runModeFour():
 
         # Draw clock
         font = pygame.font.Font(None, 24)
-        survivedtext = font.render(str(
-            round(((90000 - pygame.time.get_ticks())/60000), 2)).zfill(2), True, (0, 0, 0))
+        survivedtext = font.render(
+            str(int(counter // 10)).zfill(2), True, (0, 0, 0))
         textRect = survivedtext.get_rect()
         textRect.topright = [635, 5]
         screen.blit(survivedtext, textRect)
@@ -131,6 +134,7 @@ def runModeFour():
                 elif event.key == K_d:
                     keys[3] = True
                 elif event.key == K_ESCAPE:
+                    counter = 900
                     return True
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_w:
@@ -158,12 +162,14 @@ def runModeFour():
             mousepos[0] += 5
 
         # Win/Lose check
-        if pygame.time.get_ticks() >= 90000:
+        if counter <= 0:
             running = 0
             exitcode = 1
         if healthvalue <= 0:
             running = 0
             exitcode = 0
+        
+        
     # Win/lose display
     if exitcode == 0:
         pygame.font.init()
