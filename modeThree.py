@@ -206,7 +206,7 @@ def gameOver(bg, mouse, cats, score):
     headingSuface = font.render('GAMEOVER', True, (255, 0, 0))
     headingSize = headingSuface.get_size()
     font = pygame.font.SysFont('consolas', 20)
-    commentSuface = font.render('Press "space" to replay', True, (255, 255, 0))
+    commentSuface = font.render('Press "SPACE" to play, "ESC" to back', True, (255, 255, 0))
     commentSize = commentSuface.get_size()
     while True:
         for event in pygame.event.get():
