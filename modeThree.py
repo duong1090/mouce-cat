@@ -113,6 +113,33 @@ class Background():
         if self.y > self.height:
             self.y -= self.height
 
+def gameStart(bg):
+    bg.__init__()
+    font = pygame.font.SysFont('consolas', 60)
+    headingSuface = font.render('START', True, (255, 0, 0))
+    headingSize = headingSuface.get_size()
+
+    font = pygame.font.SysFont('consolas', 20)
+    commentSuface = font.render('Press "SPACE" to play, "ESC" to back', True, (255, 255, 255))
+    commentSize = commentSuface.get_size()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYUP:
+                if event.key == K_SPACE:
+                    return
+            if event.type == pygame.KEYUP:
+                if event.key == ESC:
+                    stateMode.state == 'intro'
+        bg.draw()
+        DISPLAYSURF.blit(headingSuface, (int((WINDOWWIDTH - headingSize[0])/2), 100))
+        DISPLAYSURF.blit(commentSuface, (int((WINDOWWIDTH - commentSize[0])/2), 400))
+        pygame.display.update()
+        fpsClock.tick(FPS)
+
 def gamePlay(bg, mouse, cats,score):
     bg.__init__()
     mouse.__init__()
@@ -195,9 +222,11 @@ def gameOver(bg, mouse, cats, score):
         DISPLAYSURF.blit(commentSuface, (int((WINDOWWIDTH - commentSize[0])/2), 400))
         pygame.display.update()
         fpsClock.tick(FPS)
+
 def runModeThree():
     pygame.display.set_mode((480, 600))
     bg = Background()
+    gameStart(bg)
     mouse = Mouse()
     cats = Cats()
     score = Score()

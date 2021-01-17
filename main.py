@@ -75,6 +75,7 @@ while True:
     #thinh
     elif stateMode.state == 'three':
         runModeThree()
+               
     #dao
     elif stateMode.state == 'four':
         runModeFour()
